@@ -60,34 +60,40 @@ function App() {
   }
 
   function getCartFees() {
+    let subTotal = 0;
+    lineItems.forEach((item) => {
+      subTotal = parseFloat(subTotal + item.price);
+    })
     setCartFees(
-      <CartFees
-        subtotal={SUBTOTAL} 
-        taxes={HST}
-        total={TOTAL}
-      />
+      <CartFees subTotal={subTotal} />
     )
   }
 
-  useEffect(() => {
+  function updateCart() {
     getCartItems();
     getCartFees();
+  }
+
+  useEffect(() => {
+    updateCart();
   }, []);
 
   function removeLineItem(lineItemId) {
+    //There's no quantity indicator on the provided screenshot, so this will essentially
+    //remove all items with the specified ID as if they were stacked with a quantity indicator.
     let updatedArray = lineItems;
     updatedArray.forEach((item, index) => {
       (item.id == lineItemId) && updatedArray.splice(index, 1);
     });
     setLineItems(updatedArray);
-    getCartItems();
+    updateCart();
   }
 
   function addLineItem(lineItem) {
     let updatedArray = lineItems;
     updatedArray.push(lineItem);
     setLineItems(updatedArray);
-    getCartItems();
+    updateCart();
   }
 
   return (
@@ -101,6 +107,8 @@ function App() {
         { cartFees }
       </div>
       <br />
+      {/* These buttons overlap ID's since there's no quantity indicator and no
+      unique IDs. Could workaround but will continue with the assessment for now. */}
       <button onClick={() => addLineItem(initialLineItems[0])}>Add Grey Sofa</button>
       <button onClick={() => addLineItem(initialLineItems[1])}>Add Blue Sofa</button>
       <button onClick={() => addLineItem(initialLineItems[2])}>Add White Sofa</button>
