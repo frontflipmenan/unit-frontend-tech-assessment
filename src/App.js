@@ -19,9 +19,10 @@ function App() {
   const [cartItems, setCartItems] = useState(null)
   const [cartFees, setCartFees] = useState(null)
   const [lineItems, setLineItems] = useState([])
+  const [shippingLocation, setShippingLocation] = useState('V')
 
   function getApiData() {
-    axios.get(`http://localhost:3005/items`)
+    axios.get(`http://localhost:3005/items?loc=${shippingLocation}`)
     .then(res => {
       setLineItems(res.data);
     })
@@ -82,6 +83,16 @@ function App() {
     updateCart();
   }
 
+  const handlePostalCodeInput = (event) => {
+    if ((event.target.value).charAt(0) == shippingLocation) {
+      return
+    } else {
+      console.log('Shipping location changed.')
+      setShippingLocation((event.target.value).charAt(0));
+      getApiData(shippingLocation);
+    }
+  };
+
   return (
     <div className="App">
       <div className="cart-container">
@@ -93,6 +104,14 @@ function App() {
         { cartFees }
       </div>
       <br />
+      <h4>Input Postal Code</h4>
+      <input
+        type="text"
+        placeholder="X1X 1X1"
+        id="postalCode"
+        onBlur={handlePostalCodeInput}
+      />
+      <br /><br />
       {/* I gave this Grey Sofa a randomized ID so it doesn't remove all the other Grey Sofa's when removed. */}
       <button onClick={() => addLineItem({id: Math.random(),title: "Grey Sofa",price: 499.99,quantity: 1,image: "https://www.cozey.ca/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0277%2F3057%2F5462%2Fproducts%2F2_Single_shot_DARK_GREY_OFF_OFF_SLOPE_17f0f115-11f8-4a78-b412-e9a2fea4748d.png%3Fv%3D1629310667&w=1920&q=75",swatchColor: "#959392",swatchTitle: "Grey"})}>Add Grey Sofa</button>
     </div>
