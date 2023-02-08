@@ -11,7 +11,7 @@ export default function CartFees(props) {
       </div>
       <div className="cart-fees--row">
         <div>Taxes</div>
-        <div>${props.taxes}</div>
+        <div>${taxes}</div>
       </div>
       <div className="cart-fees--row">
         <div>Shipping</div>
