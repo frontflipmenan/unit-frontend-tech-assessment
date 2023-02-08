@@ -75,10 +75,17 @@ function App() {
   }, []);
 
   function removeLineItem(lineItemId) {
-    const updatedArray = lineItems;
+    let updatedArray = lineItems;
     updatedArray.forEach((item, index) => {
       (item.id == lineItemId) && updatedArray.splice(index, 1);
     });
+    setLineItems(updatedArray);
+    getCartItems();
+  }
+
+  function addLineItem(lineItem) {
+    let updatedArray = lineItems;
+    updatedArray.push(lineItem);
     setLineItems(updatedArray);
     getCartItems();
   }
@@ -93,6 +100,12 @@ function App() {
         { cartItems }
         { cartFees }
       </div>
+      <br />
+      <button onClick={() => addLineItem(initialLineItems[0])}>Add Grey Sofa</button>
+      <button onClick={() => addLineItem(initialLineItems[1])}>Add Blue Sofa</button>
+      <button onClick={() => addLineItem(initialLineItems[2])}>Add White Sofa</button>
+
+
     </div>
     <style>
       {/*
