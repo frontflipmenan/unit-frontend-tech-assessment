@@ -9,7 +9,7 @@ const BLUE = "#172162"; //"rgb(23, 33, 98)";
 const LIGHT_GREY = "#6e7484";
 const BLACK = "#000000";
 //First part given
-const lineItems = [
+const initialLineItems = [
   {
     id: 1,
     title: "Grey Sofa",
@@ -46,6 +46,7 @@ const ESTIMATED_DELIVERY = "Nov 24, 2021";
 function App() {
   const [cartItems, setCartItems] = useState(null)
   const [cartFees, setCartFees] = useState(null)
+  const [lineItems, setLineItems] = useState(initialLineItems)
 
   function getCartItems() {
     setCartItems((lineItems.length > 0) ? lineItems.map((item, index) => {
@@ -53,6 +54,7 @@ function App() {
         key={`cart-line-item-${index}`}
         item={item}
         estimatedDelivery={ESTIMATED_DELIVERY}
+        removeItem={removeLineItem}
       />
     }) : 'Add items to cart to continue shopping.')
   }
@@ -72,16 +74,25 @@ function App() {
     getCartFees();
   }, []);
 
+  function removeLineItem(lineItemId) {
+    const updatedArray = lineItems;
+    updatedArray.forEach((item, index) => {
+      (item.id == lineItemId) && updatedArray.splice(index, 1);
+    });
+    setLineItems(updatedArray);
+    getCartItems();
+  }
+
   return (
     <div className="App">
       <div className="cart-container">
         <h1 className="cart-heading">
           Your Cart
         </h1>
-        <div className="cart-grid">
-          { cartItems }
-          { cartFees }
-        </div>
+      <div className="cart-grid">
+        { cartItems }
+        { cartFees }
+      </div>
     </div>
     <style>
       {/*

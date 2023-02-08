@@ -28,7 +28,10 @@ export default function CartLineItem(props) {
           <div className="line-item--delivery-date">
             Estimated Delivery Date: { props.estimatedDelivery }
           </div>
-          <a className="line-item--remove-button">
+          <a
+            className="line-item--remove-button"
+            onClick={() => props.removeItem(details.id)}
+          >
             Remove
           </a>
         </div>
