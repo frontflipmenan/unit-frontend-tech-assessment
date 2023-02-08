@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import CartLineItem from './components/cartLineItem'
+import CartFees from './components/cartFees';
 import { useEffect, useState } from 'react';
 
 //Styling variables
@@ -44,6 +45,7 @@ const ESTIMATED_DELIVERY = "Nov 24, 2021";
 
 function App() {
   const [cartItems, setCartItems] = useState(null)
+  const [cartFees, setCartFees] = useState(null)
 
   function getCartItems() {
     setCartItems((lineItems.length > 0) ? lineItems.map((item, index) => {
@@ -55,8 +57,19 @@ function App() {
     }) : 'Add items to cart to continue shopping.')
   }
 
+  function getCartFees() {
+    setCartFees(
+      <CartFees
+        subtotal={SUBTOTAL} 
+        taxes={HST}
+        total={TOTAL}
+      />
+    )
+  }
+
   useEffect(() => {
     getCartItems();
+    getCartFees();
   }, []);
 
   return (
@@ -67,6 +80,7 @@ function App() {
         </h1>
         <div className="cart-grid">
           { cartItems }
+          { cartFees }
         </div>
     </div>
     <style>
@@ -79,12 +93,16 @@ function App() {
         .App {
           margin: auto;
           max-width: 1200px;
+          font-family: sans-serif
+        }
+
+        h1 { 
+          font-family: serif
         }
 
         h4 {
           color: ${BLUE};
           margin: 0;
-          font-family: sans-serif
         }
         
         .cart-heading {
@@ -125,6 +143,22 @@ function App() {
         .line-item--remove-button {
           font-size: 0.9rem;
           text-decoration: underline;
+        }
+
+        .cart-fees--row, .cart-fees--row--title {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 1rem;
+        }
+
+        .cart-fees--row--title {
+          color: ${BLUE}
+        }
+
+        .cart-fees--container {
+          margin-inline: auto;
+          margin-top: 3rem;
+          max-width: 800px;
         }
       `}
     </style>
