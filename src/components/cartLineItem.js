@@ -1,3 +1,5 @@
+//TODO: Best practice to rename this file to CartLineItem.js
+
 export default function CartLineItem(props) {
   const details = props.item;
 

@@ -1,3 +1,5 @@
+//TODO: Best practice to rename this file to CartFees.js
+
 export default function CartFees(props) {
   
   const taxes = parseFloat(props.subTotal * 0.13).toFixed(2);
